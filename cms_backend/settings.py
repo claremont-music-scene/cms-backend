@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_s3_storage',
     'rest_framework',
     'venues',
 ]
@@ -121,8 +122,29 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+ #STATICFILES_STORAGE = "django_s3_storage.storage.ManifestStaticS3Storage"
 STATIC_URL = '/static/'
+MEDIA_URL = 'https://s3-us-west-1.amazonaws.com/claremont-musak-scene/'
+#MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+DEFAULT_FILE_STORAGE = "django_s3_storage.storage.S3Storage"
+
+# https://github.com/etianen/django-s3-storage#staticfiles-storage-settings
+
+# The AWS region to connect to.
+AWS_REGION = "us-east-1"
+# The AWS access key to use.
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+# The AWS secret access key to use.
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+# The optional AWS session token to use.
+#AWS_SESSION_TOKEN = ""
+
+AWS_S3_BUCKET_NAME = 'claremont-musak-scene'
+
+# https://github.com/etianen/django-s3-storage#optimizing-media-file-caching
+# All media is public
+AWS_S3_BUCKET_AUTH = False
+AWS_S3_MAX_AGE_SECONDS = 60 * 60 * 24 * 365  # 1 year.
 
 
 REST_FRAMEWORK = {

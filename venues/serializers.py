@@ -20,4 +20,5 @@ class VenueSerializer(serializers.HyperlinkedModelSerializer):
             "address_street",
             "address_city",
             "address_full",
+            "image"
         ]

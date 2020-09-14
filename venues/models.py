@@ -1,12 +1,16 @@
 from django.db import models
 
 
+def venue_media_path(instance, filename):
+    return f"venues/{instance.slug}/{filename}"
+
+
 class Venue(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=150)
     is_public = models.BooleanField(default=True)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to="venues/images/", blank=True, null=True)
+    image = models.ImageField(upload_to=venue_media_path, blank=True, null=True)
 
     address_street = models.CharField(max_length=128, blank=True, null=True)
     address_city = models.CharField(max_length=64, blank=True, null=True)
