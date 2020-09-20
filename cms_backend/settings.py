@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_s3_storage',
     'rest_framework',
+    'news',
     'venues',
 ]
 
