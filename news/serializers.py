@@ -1,11 +1,19 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Post
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name'
+        ]
+
 #TODO don't show draft posts
-#TODO author
-#https://www.django-rest-framework.org/api-guide/serializers/#relational-fields
-#https://www.django-rest-framework.org/api-guide/relations/
-class PostSerializer(serializers.HyperlinkedModelSerializer):
+
+class PostSerializer(serializers.ModelSerializer):
+    author = UserSerializer()
     class Meta:
         model = Post
         fields = [
@@ -14,7 +22,7 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
             "teaser",
             "body",
             "image",
-            #"author",
+            "author",
             "date_modified",
             "date_published"
         ]
