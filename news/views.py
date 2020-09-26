@@ -6,6 +6,8 @@ from .serializers import PostSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.filter(is_draft=False)
+    queryset = Post.objects.filter(is_draft=False).order_by(
+        "-is_featured", "order", "date_published"
+    )
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]

@@ -14,11 +14,15 @@ class Post(models.Model):
     date_created = models.DateTimeField(auto_created=True)
     date_modified = models.DateTimeField(auto_now=True)
     is_draft = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False)
+    order = models.IntegerField(blank=True, null=True)
     date_published = models.DateTimeField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.is_draft and not self.date_published:
             self.date_published = now()
+        elif self.is_draft and self.date_published:
+            self.date_published = None
         super().save(*args, **kwargs)
 
     def __str__(self):
